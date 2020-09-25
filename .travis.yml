@@ -1,6 +1,6 @@
 language: csharp
 solution: RatScanner.sln
-os: windows
+os: linux
 mono: none
 dotnet: 2.1.502
 script:
