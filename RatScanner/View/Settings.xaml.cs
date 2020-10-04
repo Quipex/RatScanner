@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using RatScanner.ViewModel;
 
 namespace RatScanner.View
@@ -6,7 +7,7 @@ namespace RatScanner.View
 	/// <summary>
 	/// Interaction logic for Settings.xaml
 	/// </summary>
-	internal partial class Settings : Window
+	internal partial class Settings : UserControl, ISwitchable
 	{
 		internal Settings()
 		{
@@ -22,19 +23,31 @@ namespace RatScanner.View
 
 		private void CloseSettings(object sender, RoutedEventArgs e)
 		{
-			Close();
+			PageSwitcher.Instance.Navigate(new MainMenu());
 		}
 
 		private void SaveSettings(object sender, RoutedEventArgs e)
 		{
 			var settingsVM = (SettingsVM)DataContext;
 
-			RatConfig.ToolTipDuration = int.TryParse(settingsVM.ToolTipDuration, out var i) ? i : 0;
-			RatConfig.EnableNameScan = settingsVM.EnableNameScan;
-			RatConfig.EnableIconScan = settingsVM.EnableIconScan;
-			RatConfig.ScanRotatedIcons = settingsVM.ScanRotatedIcons;
-			RatConfig.UseCachedIcons = settingsVM.UseCachedIcons;
-			RatConfig.ModifierKeyCode = settingsVM.IconScanModifier;
+			RatConfig.NameScan.Enable = settingsVM.EnableNameScan;
+
+			RatConfig.IconScan.Enable = settingsVM.EnableIconScan;
+			RatConfig.IconScan.ScanRotatedIcons = settingsVM.ScanRotatedIcons;
+			RatConfig.IconScan.UseCachedIcons = settingsVM.UseCachedIcons;
+			RatConfig.IconScan.ModifierKeyCode = settingsVM.IconScanModifier;
+
+			RatConfig.ToolTip.Duration = int.TryParse(settingsVM.ToolTipDuration, out var i) ? i : 0;
+
+			RatConfig.MinimalUi.ShowName = settingsVM.ShowName;
+			RatConfig.MinimalUi.ShowPrice = settingsVM.ShowPrice;
+			RatConfig.MinimalUi.ShowAvgDayPrice = settingsVM.ShowAvgDayPrice;
+			RatConfig.MinimalUi.ShowAvgWeekPrice = settingsVM.ShowAvgWeekPrice;
+			RatConfig.MinimalUi.ShowPricePerSlot = settingsVM.ShowPricePerSlot;
+			RatConfig.MinimalUi.ShowTraderPrice = settingsVM.ShowTraderPrice;
+			RatConfig.MinimalUi.ShowUpdated = settingsVM.ShowUpdated;
+			RatConfig.MinimalUi.Opacity = settingsVM.Opacity;
+
 			RatConfig.ScreenResolution = (RatConfig.Resolution)settingsVM.ScreenResolution;
 			RatConfig.MinimizeToTray = settingsVM.MinimizeToTray;
 			RatConfig.AlwaysOnTop = settingsVM.AlwaysOnTop;
@@ -42,7 +55,21 @@ namespace RatScanner.View
 
 			Logger.LogInfo("Saving config...");
 			RatConfig.SaveConfig();
-			Close();
+
+			// Apply config
+			PageSwitcher.Instance.Topmost = RatConfig.AlwaysOnTop;
+
+			PageSwitcher.Instance.Navigate(new MainMenu());
+		}
+
+		public void UtilizeState(object state)
+		{
+			throw new System.NotImplementedException();
+		}
+
+		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

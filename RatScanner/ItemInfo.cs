@@ -37,7 +37,7 @@ namespace RatScanner
 		{
 			try
 			{
-				var marketDB = RatScannerMain.MarketDB;
+				var marketDB = RatScannerMain.Instance.MarketDB;
 
 				var baseItem = marketDB.GetItemByUid(Uid);
 				if (baseItem == null) return null;
@@ -77,7 +77,7 @@ namespace RatScanner
 
 			if (icon.Meta != Meta) return false;
 			if (icon.Uid != Uid) return false;
-			if ((icon.Mods == null) != (Mods == null)) return false;
+			if ((icon.HasMods) != (HasMods)) return false;
 			if (icon.Mods != null && Mods != null)
 			{
 				return icon.Mods.SequenceEqual(Mods);

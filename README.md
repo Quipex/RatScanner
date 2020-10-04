@@ -1,13 +1,13 @@
-<img src="media/RatLogo.png" height=35 align=left style="margin-right:5px">
+<img src="media/RatLogo.png" height=100 align=right>
 
-<div style="position:absolute;right:50px">
-<a href="https://patreon.com/RatScanner">
-<img src="https://img.shields.io/badge/dynamic/json?color=%23e85b46&label=Patreon&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F4117180&style=for-the-badge&logo=patreon" />
-</a>
+<div>
+  <a href="https://patreon.com/RatScanner">
+    <img src="https://img.shields.io/badge/dynamic/json?color=%23e85b46&label=Patreon&query=data.attributes.patron_count&suffix=%20patrons&url=https%3A%2F%2Fwww.patreon.com%2Fapi%2Fcampaigns%2F4117180&style=for-the-badge&logo=patreon" />
+  </a>
 
-<a href="https://discord.gg/aHZf7aP" style="padding:10px">
-<img src="https://img.shields.io/discord/687549250435153930?label=Discord&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2&style=for-the-badge" />
-</a>
+  <a href="https://discord.gg/aHZf7aP" style="padding:10px">
+    <img src="https://img.shields.io/discord/687549250435153930?label=Discord&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2&style=for-the-badge" />
+  </a>
 </div>
 
 # Rat Scanner
@@ -28,13 +28,15 @@ The information is taken from a [third-party API][tarkov-market] which takes the
 
 ## How it works
 
-The tool is entierly external. This means its not accessing any memory of the game, like cheats do.
+The tool is entirely external. This means it is not accessing any memory of the game, like cheats do.
 
-Instead when you want to scan a item, a screenshot is taken and image processing is applied to identify the clicked item. The item is then looked up in the database and information is displayed in the window and with a overlayed tooltip.
+Instead, when you want to scan a item, a screenshot is taken and image processing is applied to identify the clicked item. The item is then looked up in the database and information is displayed in the window and with a overlayed tooltip.
 
 <br/>
 
 ## How to use
+
+Your game has to be in either `Borderless` or `Windowed` mode for the overlay to work!
 
 There are currently two types of item scan methods
 
@@ -61,19 +63,42 @@ _Icon scanning refers to scanning the icon of a item._
 Limitations
 
 - Uses / durability is always assumed at 100%
-- Items which share a icon with other items (especially key's) will result in a uncertain match
+- Items which share a icon with other items (especially keys) will result in a uncertain match
 
 Notes
 
+- Check out the [indicator for modded items](#modded-item-indicator)
 - If the item size does not get detected correctly, try to click in a corner of the item
 
 <img src="media/IconScan.gif" width=400px>
 
 <br/>
 
+## Modded Item Indicator
+When attached mods on a item were detected, they will be included in the data.
+This is indicated by an icon which is displayed to the left of the item name.
+
+Price includes attached mods       | Price **does not** include attached mods
+:--------------------------------: | :------------------------------------:
+![AttachedMods](media/ModIcon.png) | ![NoAttachedMods](media/NoModIcon.png)
+
+## Minimal UI
+Switch to the minimal ui by clicking the dedicated button inside the titlebar.
+Get back to the standard view by **double clicking** anywhere inside the window.
+
+Background opacity as well as the data which is shown can be configured in the settings.
+
+<img src="media/MinimalUI-HowTo.gif" width=280px>
+
 ## Download
 
-You can download the latest version [here][latest-release] or choose a specific version to download [here][releases].
+You can directly download the latest version [here][latest-release] or choose a specific version to download [here][releases].
+
+After you downloaded the Zip-Archive (you only need `RatScanner.zip`) extract it anywhere on your PC and run `RatScanner.exe`.
+
+Once it has launched, go into the settings menu (bottom right corner) and check that your resolution is set properly (default is FullHD).
+
+**Important:** If the tool does not seem to start, make sure you have the [.Net Core Runtime][net-core-download] installed.
 
 <br/>
 
@@ -109,5 +134,6 @@ This will help to pay for the backend server as well as the [API][tarkov-market]
 [escape-from-tarkov]: https://www.escapefromtarkov.com/
 [tarkov-market]: https://tarkov-market.com/
 [eft-icons-repo]: https://github.com/Blightbuster/EfTIcons
-[latest-release]: https://github.com/Blightbuster/RatScanner/releases/latest/download/package.zip
+[latest-release]: https://github.com/Blightbuster/RatScanner/releases/latest/download/RatScanner.zip
 [releases]: https://github.com/Blightbuster/RatScanner/releases/
+[net-core-download]: https://dotnet.microsoft.com/download/dotnet-core/current/runtime

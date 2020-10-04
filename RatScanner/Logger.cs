@@ -44,12 +44,15 @@ namespace RatScanner
 
 		internal static void LogMat(OpenCvSharp.Mat mat, string fileName = "mat")
 		{
-			mat.SaveImage(GetUniquePath(fileName, ".png"));
+			mat.SaveImage(GetUniquePath(RatConfig.Paths.Data, fileName, ".png"));
 		}
 
 		internal static void LogDebugMat(OpenCvSharp.Mat mat, string fileName = "mat")
 		{
-			if (RatConfig.LogDebug) LogMat(mat, fileName + ".debug");
+			if (RatConfig.LogDebug)
+			{
+				mat.SaveImage(GetUniquePath(RatConfig.Paths.Debug, fileName, ".png"));
+			}
 		}
 
 		internal static void LogDebug(string message)
@@ -57,16 +60,16 @@ namespace RatScanner
 			if (RatConfig.LogDebug) AppendToLog("[Debug] " + message);
 		}
 
-		private static string GetUniquePath(string fileName, string extension)
+		private static string GetUniquePath(string basePath, string fileName, string extension)
 		{
 			fileName = fileName.Replace(' ', '_');
 
 			var index = 0;
-			var uniquePath = Path.Combine(RatConfig.DebugPath, fileName + index + extension);
+			var uniquePath = Path.Combine(basePath, fileName + index + extension);
 
 			while (File.Exists(uniquePath)) index += 1;
 
-			return Path.Combine(RatConfig.DebugPath, fileName + index + extension);
+			return Path.Combine(RatConfig.Paths.Debug, fileName + index + extension);
 		}
 
 		private static void AppendToLog(string content)
@@ -90,7 +93,7 @@ namespace RatScanner
 
 		internal static void ClearMats(string pattern = "*.png")
 		{
-			var files = Directory.GetFiles(RatConfig.DataPath, pattern);
+			var files = Directory.GetFiles(RatConfig.Paths.Data, pattern);
 			foreach (var file in files)
 			{
 				File.Delete(file);
@@ -99,7 +102,13 @@ namespace RatScanner
 
 		internal static void ClearDebugMats()
 		{
-			if (RatConfig.LogDebug) ClearMats("*.debug.png");
+			if(!Directory.Exists(RatConfig.Paths.Debug)) return;
+
+			var files = Directory.GetFiles(RatConfig.Paths.Debug, "*.png");
+			foreach (var file in files)
+			{
+				File.Delete(file);
+			}
 		}
 
 		private static void CreateGitHubIssue(string message, Exception e)
